@@ -1,11 +1,8 @@
 import "./index.css";
+import Body from "./components/Body";
 
 function App() {
-  return (
-    <div className="font-bold bg-pink-400">
-      <h2>Helloo</h2>
-    </div>
-  );
+  return <Body />;
 }
 
 export default App;
