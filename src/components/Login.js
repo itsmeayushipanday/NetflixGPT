@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [text, setText] = useState(true);
+  const [errormsg, setErrorMsg] = useState(null);
+
+  const email = useRef(null);
+  const password = useRef(null);
+  const name = useRef(null);
+
+  const handleButtonClick = () => {
+    const msg = checkValidData(
+      email.current?.value,
+      password.current?.value,
+      name.current?.value
+    );
+    setErrorMsg(msg);
+  };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -12,6 +27,7 @@ const Login = () => {
   const toggleText = () => {
     setText(!text);
   };
+
   return (
     <div>
       <Header />
@@ -22,36 +38,46 @@ const Login = () => {
         />
       </div>
       <div className="bg-black bg-opacity-50 h-screen flex justify-center items-center">
-        <form className="absolute w-3/12 my-36 mx-auto right-0 left-0 bg-black bg-opacity-75 p-8 rounded-md">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="absolute w-3/12 my-36 mx-auto right-0 left-0 bg-black bg-opacity-75 p-8 rounded-md"
+        >
           <h1 className="text-white font-bold text-3xl mb-2">
             {isSignInForm ? "Sign In" : "Sign up "}
           </h1>
           {!isSignInForm && (
             <input
+              ref={name}
               type="text"
               placeholder="Name"
               className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
             />
           )}
           <input
+            ref={email}
             type="text"
             placeholder="Email Address or Phone Number"
             className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
           />
           <input
             type="text"
+            ref={password}
             placeholder="Password"
             className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
           />
           {!isSignInForm && (
             <input
+              ref={password}
               type="text"
               placeholder="Confirm Password"
               className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
             />
           )}
+
+          <p className="text-red-600 font-semibold">{errormsg}</p>
           <button
             type="submit"
+            onClick={handleButtonClick}
             className="w-full p-2 m-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded"
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
