@@ -74,7 +74,7 @@ const Login = () => {
             />
           )}
 
-          <p className="text-red-600 font-semibold">{errormsg}</p>
+          <p className="text-red-600 font-extrabold">{errormsg}</p>
           <button
             type="submit"
             onClick={handleButtonClick}
@@ -116,3 +116,5 @@ const Login = () => {
 };
 
 export default Login;
+
+//1:57 backkkkkk
