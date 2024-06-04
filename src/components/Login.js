@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -9,15 +14,53 @@ const Login = () => {
 
   const email = useRef(null);
   const password = useRef(null);
-  const name = useRef(null);
+  //const name = useRef(null);
 
   const handleButtonClick = () => {
     const msg = checkValidData(
       email.current?.value,
-      password.current?.value,
-      name.current?.value
+      password.current?.value
+      //name.current?.value
     );
     setErrorMsg(msg);
+    if (msg) return;
+    //signin sign up logic
+    if (!isSignInForm) {
+      //sign up logic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current?.value,
+        password.current?.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorCode + "-" + errorMessage);
+        });
+    } else {
+      //sign in logic
+      signInWithEmailAndPassword(
+        auth,
+        email.current?.value,
+        password.current?.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorCode + "- " + errorMessage);
+        });
+    }
   };
 
   const toggleSignInForm = () => {
@@ -47,7 +90,7 @@ const Login = () => {
           </h1>
           {!isSignInForm && (
             <input
-              ref={name}
+              //ref={name}
               type="text"
               placeholder="Name"
               className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
@@ -65,14 +108,14 @@ const Login = () => {
             placeholder="Password"
             className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
           />
-          {!isSignInForm && (
+          {/* {!isSignInForm && (
             <input
               ref={password}
               type="text"
               placeholder="Confirm Password"
               className="bg-transparent text-gray-300 placeholder-gray-500 w-full py-2 px-4 mb-4 rounded-md border border-gray-400"
             />
-          )}
+          )} */}
 
           <p className="text-red-600 font-extrabold">{errormsg}</p>
           <button
@@ -116,5 +159,3 @@ const Login = () => {
 };
 
 export default Login;
-
-//1:57 backkkkkk
