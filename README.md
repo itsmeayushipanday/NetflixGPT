@@ -11,4 +11,9 @@ After that I have written the sign in form authentication logic using signInWith
 
 now push the user object to a redux store where it will be accessible anytime and then as soon as we click on sign up or sign in form then user will be directed to the browse page.
 
-2:52 backkkkkkkk
+So, created appStore.js file in utils folder. created redux store with user slice and provided this to our root file App.js
+
+onAuthStateChange is used from firebase to know-
+// User is signed in,
+// User is signed out
+I have applied this into body.js file using useEffect hook as i want it to occur only once.
