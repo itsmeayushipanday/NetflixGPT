@@ -36,7 +36,7 @@ const Body = () => {
         dispatch(removeUser());
       }
     });
-  }, []);
+  }, [dispatch, navigate]);
 
   return (
     <div>
